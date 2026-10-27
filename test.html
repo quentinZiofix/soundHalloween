@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test alertes Halloween</title>
+  <style>
+    :root {
+      --bg: #1a1210;
+      --panel: #2a1c18;
+      --text: #f2e6d8;
+      --muted: #b8a090;
+      --accent: #e07030;
+      --line: #4a342c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at top, #3a2218 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      padding: 2rem;
+    }
+
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .hint {
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    section {
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.1rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #3a2820;
+      color: var(--text);
+      padding: 0.65rem 0.9rem;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+      background: #4a3228;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    #unlock-audio {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    #log {
+      margin: 0;
+      padding: 0.85rem 1rem;
+      background: #120c0a;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-family: ui-monospace, monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+      min-height: 4.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test alertes Halloween</h1>
+  <p class="hint">Clique d’abord « Débloquer l’audio », puis simule un sub / gift.</p>
+
+  <section>
+    <h2>Audio</h2>
+    <div class="row">
+      <button type="button" id="unlock-audio">Débloquer l’audio</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Subs</h2>
+    <div class="row">
+      <button type="button" data-sim="sub" data-tier="1000">Sub Tier 1</button>
+      <button type="button" data-sim="sub" data-tier="prime">Sub Prime</button>
+      <button type="button" data-sim="sub" data-tier="2000">Sub Tier 2</button>
+      <button type="button" data-sim="sub" data-tier="3000">Sub Tier 3</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Subgifts</h2>
+    <div class="row">
+      <button type="button" data-sim="gift" data-amount="2">Gift 1–4 (×2)</button>
+      <button type="button" data-sim="gift" data-amount="7">Gift 5–10 (×7)</button>
+      <button type="button" data-sim="gift" data-amount="15">Gift 11–20 (×15)</button>
+      <button type="button" data-sim="gift" data-amount="25">Gift 21+ (×25)</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Dernier tirage</h2>
+    <pre id="log">En attente…</pre>
+  </section>
+
+  <script>
+    // Stub StreamElements pour le test hors overlay.
+    window.SE_API = {
+      resumeQueue: function () {}
+    };
+
+    function fireSubEvent(event) {
+      window.dispatchEvent(new CustomEvent('onEventReceived', {
+        detail: {
+          listener: 'subscriber-latest',
+          event: event
+        }
+      }));
+    }
+
+    function simulateSub(tier) {
+      fireSubEvent({
+        name: 'TestUser',
+        tier: tier,
+        amount: 1,
+        gifted: false,
+        bulkGifted: false
+      });
+      logLine('SUB tier=' + tier);
+    }
+
+    function simulateGift(amount) {
+      fireSubEvent({
+        name: 'TestGifter',
+        amount: amount,
+        gifted: true,
+        bulkGifted: true
+      });
+      logLine('GIFT ×' + amount);
+    }
+
+    function logLine(label) {
+      // Affiche le src/volume juste après le clic (playAlert met à jour audio).
+      setTimeout(function () {
+        const src = audio.src || '(vide)';
+        const vol = Math.round(audio.volume * 100) + '%';
+        document.getElementById('log').textContent =
+          label + '\nvolume: ' + vol + '\nsrc: ' + src;
+      }, 0);
+    }
+
+    document.querySelectorAll('[data-sim]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (button.dataset.sim === 'gift') {
+          simulateGift(Number(button.dataset.amount));
+          return;
+        }
+
+        simulateSub(button.dataset.tier);
+      });
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
