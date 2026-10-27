@@ -123,7 +123,14 @@ function pickRandom(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
+const SOUND_GIFT_3 =
+  'https://quentinzioff.github.io/soundHalloween/windows-xp-horror-edition-startup.mp3';
+
 function pickGiftSound(giftCount) {
+  if (giftCount === 3) {
+    return SOUND_GIFT_3;
+  }
+
   if (giftCount >= 21) {
     return pickRandom(SOUNDS.gift21);
   }
@@ -234,23 +241,55 @@ function playAlert(config) {
   }, ALERT_DURATION_SECONDS * 1000);
 }
 
+const ALL_SOUNDS = [
+  ...SOUNDS.tier1,
+  ...SOUNDS.tier2,
+  ...SOUNDS.tier3,
+  ...SOUNDS.gift1_4,
+  ...SOUNDS.gift5_10,
+  ...SOUNDS.gift11_20,
+  ...SOUNDS.gift21
+];
+
 const unlockButton = document.getElementById('unlock-audio');
 
 if (unlockButton) {
   unlockButton.addEventListener('click', function () {
-    const allSounds = [
-      ...SOUNDS.tier1,
-      ...SOUNDS.tier2,
-      ...SOUNDS.tier3,
-      ...SOUNDS.gift1_4,
-      ...SOUNDS.gift5_10,
-      ...SOUNDS.gift11_20,
-      ...SOUNDS.gift21
-    ];
-
     playAlert({
-      sound: pickRandom(allSounds),
+      sound: pickRandom(ALL_SOUNDS),
       volume: pickVolume()
     });
   });
 }
+
+// ==============================
+// AMBIANCE ALÉATOIRE (10–25 min)
+// ==============================
+
+const AMBIENT_MIN_MS = 10 * 60 * 1000;
+const AMBIENT_MAX_MS = 25 * 60 * 1000;
+
+function playAmbient() {
+  const sound = pickRandom(ALL_SOUNDS);
+  const volume = pickVolume();
+
+  audio.pause();
+  audio.src = sound;
+  audio.volume = volume;
+  audio.currentTime = 0;
+
+  audio.play().catch(function (error) {
+    console.warn('Impossible de lire le son ambiant :', sound, error);
+  });
+}
+
+function scheduleAmbient() {
+  const delay = AMBIENT_MIN_MS + Math.random() * (AMBIENT_MAX_MS - AMBIENT_MIN_MS);
+
+  setTimeout(function () {
+    playAmbient();
+    scheduleAmbient();
+  }, delay);
+}
+
+scheduleAmbient();
