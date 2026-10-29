@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test volumes</title>
+  <style>
+    body {
+      margin: 2rem;
+      font-family: "Segoe UI", sans-serif;
+      background: #1a1210;
+      color: #f2e6d8;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid #4a342c;
+      background: #3a2820;
+      color: #f2e6d8;
+      padding: 0.75rem 1rem;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: #e07030;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test volumes</h1>
+  <p>alex_kizenkov-dark-engine-logo-141942.mp3</p>
+  <div class="row">
+    <button type="button" data-volume="0.10">10%</button>
+    <button type="button" data-volume="0.30">30%</button>
+    <button type="button" data-volume="0.50">50%</button>
+    <button type="button" data-volume="0.80">80%</button>
+    <button type="button" data-volume="1.00">100%</button>
+  </div>
+
+  <script>
+    const SOUND = 'alex_kizenkov-dark-engine-logo-141942.mp3';
+    const audio = new Audio();
+
+    document.querySelectorAll('[data-volume]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        audio.pause();
+        audio.src = SOUND;
+        audio.volume = Number(button.dataset.volume);
+        audio.currentTime = 0;
+        audio.play().catch(function (error) {
+          console.warn(error);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

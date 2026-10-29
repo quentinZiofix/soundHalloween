@@ -97,11 +97,25 @@
       word-break: break-all;
       min-height: 4.5rem;
     }
+
+    #sub-alert-stage {
+      min-height: 3rem;
+      display: grid;
+      place-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: #120c0a;
+      border: 1px dashed var(--line);
+    }
   </style>
 </head>
 <body>
   <h1>Test alertes Halloween</h1>
   <p class="hint">Clique d’abord « Débloquer l’audio », puis simule un sub / gift.</p>
+
+  <div id="sub-alert-stage">
+    <div id="sub-alert-root"></div>
+  </div>
 
   <section>
     <h2>Audio</h2>
@@ -113,20 +127,24 @@
   <section>
     <h2>Subs</h2>
     <div class="row">
-      <button type="button" data-sim="sub" data-tier="1000">Sub Tier 1</button>
-      <button type="button" data-sim="sub" data-tier="prime">Sub Prime</button>
-      <button type="button" data-sim="sub" data-tier="2000">Sub Tier 2</button>
-      <button type="button" data-sim="sub" data-tier="3000">Sub Tier 3</button>
+      <button type="button" data-sim="sub" data-tier="1000" data-amount="1">1er sub</button>
+      <button type="button" data-sim="sub" data-tier="1000" data-amount="5">Resub n°5</button>
+      <button type="button" data-sim="sub" data-tier="prime" data-amount="1">Sub Prime</button>
+      <button type="button" data-sim="sub" data-tier="2000" data-amount="2">Sub Tier 2</button>
+      <button type="button" data-sim="sub" data-tier="3000" data-amount="3">Sub Tier 3</button>
     </div>
   </section>
 
   <section>
     <h2>Subgifts</h2>
     <div class="row">
-      <button type="button" data-sim="gift" data-amount="2">Gift 1–4 (×2)</button>
-      <button type="button" data-sim="gift" data-amount="7">Gift 5–10 (×7)</button>
-      <button type="button" data-sim="gift" data-amount="15">Gift 11–20 (×15)</button>
-      <button type="button" data-sim="gift" data-amount="25">Gift 21+ (×25)</button>
+      <button type="button" data-sim="gift-single">Gift ×1 (unitaire SE)</button>
+      <button type="button" data-sim="gift" data-amount="2">Gift ×2</button>
+      <button type="button" data-sim="gift" data-amount="7">Gift ×7</button>
+      <button type="button" data-sim="gift" data-amount="15">Gift ×15</button>
+      <button type="button" data-sim="gift" data-amount="24">Gift ×24 (&lt;25)</button>
+      <button type="button" data-sim="gift" data-amount="25">Gift ×25 (masse)</button>
+      <button type="button" data-sim="gift" data-amount="50">Gift ×50</button>
     </div>
   </section>
 
@@ -150,25 +168,38 @@
       }));
     }
 
-    function simulateSub(tier) {
+    function simulateSub(tier, amount) {
       fireSubEvent({
         name: 'TestUser',
         tier: tier,
-        amount: 1,
+        amount: amount,
         gifted: false,
         bulkGifted: false
       });
-      logLine('SUB tier=' + tier);
+      logLine('SUB tier=' + tier + ' months=' + amount);
     }
 
     function simulateGift(amount) {
       fireSubEvent({
-        name: 'TestGifter',
+        name: 'GiftReceiver',
+        sender: 'TestGifter',
         amount: amount,
         gifted: true,
         bulkGifted: true
       });
-      logLine('GIFT ×' + amount);
+      logLine('BULK GIFT ×' + amount);
+    }
+
+    // Comme le bouton Gift de SE : gifted sans bulkGifted
+    function simulateSingleGift() {
+      fireSubEvent({
+        name: 'GiftReceiver',
+        sender: 'TestGifter',
+        amount: 1,
+        gifted: true,
+        bulkGifted: false
+      });
+      logLine('SINGLE GIFT ×1');
     }
 
     function logLine(label) {
@@ -188,7 +219,12 @@
           return;
         }
 
-        simulateSub(button.dataset.tier);
+        if (button.dataset.sim === 'gift-single') {
+          simulateSingleGift();
+          return;
+        }
+
+        simulateSub(button.dataset.tier, Number(button.dataset.amount || 1));
       });
     });
   </script>
