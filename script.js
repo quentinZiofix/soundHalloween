@@ -39,7 +39,9 @@ const SOUNDS = {
     'https://quentinziofix.github.io/soundHalloween/horror_sfx_vol_1/Leaves%20Footsteps/Leaves%20Footsteps%20%284%29.mp3',
     'https://quentinziofix.github.io/soundHalloween/breath-stinger1-96164.mp3',
     'https://quentinziofix.github.io/soundHalloween/horror_sfx_vol_1/Leaves%20Footsteps/Leaves%20Footsteps%20%281%29.mp3',
-    'https://quentinziofix.github.io/soundHalloween/my-little-soda-pop.mp3'
+    'https://quentinziofix.github.io/soundHalloween/my-little-soda-pop.mp3',
+    'https://quentinziofix.github.io/soundHalloween/conduculconconmerde.mp3',
+    'https://quentinziofix.github.io/soundHalloween/freesound_community-metal-gear-solid-alarm-42627.mp3',
   ],
 
   gift5_10: [
@@ -69,7 +71,7 @@ const SOUNDS = {
     'https://quentinziofix.github.io/soundHalloween/dragon-studio-i-see-you-creepy-ghost-whisper-401711.mp3'
   ],
 
-  gift21: [
+  gift21_40: [
     'https://quentinziofix.github.io/soundHalloween/horror-scream-high-quality.mp3',
     'https://quentinziofix.github.io/soundHalloween/A%20Horror%20Sound%20Pack%20Full%20Version/Jumpscares/Puppet%20Combo/Jumpscare_Puppet%20Combo_1.wav',
     'https://quentinziofix.github.io/soundHalloween/A%20Horror%20Sound%20Pack%20Full%20Version/Jumpscares/Glitched/Jumpscare_Glitched_1.wav',
@@ -103,6 +105,32 @@ const SOUNDS = {
     'https://quentinziofix.github.io/soundHalloween/horror_sfx_vol_1/Monster%20Growl/Monster%20Growl%20%2810%29.mp3',
     'https://quentinziofix.github.io/soundHalloween/dragon-studio-woman-screaming-sfx-screaming-sound-effect-320169.mp3',
     'https://quentinziofix.github.io/soundHalloween/monster-scream-aggressive.mp3'
+  ],
+
+  gift41_60: [
+    'https://quentinziofix.github.io/soundHalloween/pantoman-monster-attack-487814.mp3',
+    'https://quentinziofix.github.io/soundHalloween/freesound_community-jumpscare-94984.mp3',
+    'https://quentinziofix.github.io/soundHalloween/vicksy-mirror-jumpscare.mp3',
+    'https://quentinziofix.github.io/soundHalloween/jeremayjimenez-smile-dog-jumpscare-167171.mp3',
+    'https://quentinziofix.github.io/soundHalloween/freesound_community-jump-scare-sound-2-82831.mp3',
+    'https://quentinziofix.github.io/soundHalloween/mrlockjaw-jumpscare-206590.mp3',
+    'https://quentinziofix.github.io/soundHalloween/freesound_community-fuzzy-jumpscare-80560.mp3',
+    'https://quentinziofix.github.io/soundHalloween/ejah_music-classic-cinematic-jumpscare-388519.mp3',
+    'https://quentinziofix.github.io/soundHalloween/freesound_community-cringe-scare-47561.mp3',
+  ],
+
+  gift61: [
+    'https://quentinziofix.github.io/soundHalloween/-110063.mp3',
+    'https://quentinziofix.github.io/soundHalloween/A%20Horror%20Sound%20Pack%20Full%20Version/%28bonuses%21%21%29/FNAF%203%20SFX%20Remakes/danger2b.wav',
+    'https://quentinziofix.github.io/soundHalloween/A%20Horror%20Sound%20Pack%20Full%20Version/%28bonuses%21%21%29/FNAF%203%20SFX%20Remakes/walk_long.wav',
+    'https://quentinziofix.github.io/soundHalloween/alesiadavina-disturbing-horror-sound-2-creepy-laughter-vol-001-157464.mp3',
+    'https://quentinziofix.github.io/soundHalloween/alesiadavina-horror-sound-possessed-1-threatening-vol-001-167401.mp3',
+    'https://quentinziofix.github.io/soundHalloween/dark-horror-ambient-03-425466.mp3',
+    'https://quentinziofix.github.io/soundHalloween/horror-stinger.mp3',
+    'https://quentinziofix.github.io/soundHalloween/horror-violin_9xxpnRR.mp3',
+    'https://quentinziofix.github.io/soundHalloween/horror_sfx_vol_1/Wind%20Footsteps/Wind%20Footsteps%20%284%29.mp3',
+    'https://quentinziofix.github.io/soundHalloween/hunter-spawn-cue.mp3',
+    'https://quentinziofix.github.io/soundHalloween/i-see-yos.mp3',
   ],
 
   // Sons hors pools d’alertes — ambiance aléatoire 10–25 min
@@ -176,7 +204,7 @@ const ALERT_DURATION_SECONDS = 8;
 // VOLUME
 // ==============================
 
-const VOLUME_LEVELS = [0.10, 0.35, 0.50, 0.80, 1.00];
+const VOLUME_LEVELS = [0.25, 0.40, 0.50, 0.80, 1.00];
 
 function pickVolume(minimum = 0) {
   const allowed = VOLUME_LEVELS.filter(volume => volume >= minimum);
@@ -191,7 +219,8 @@ const SOUND_GIFT_3 =
   "https://quentinziofix.github.io/soundHalloween/windows-xp-horror-edition-startup.mp3";
 const SOUND_GIFT_5 = "https://quentinziofix.github.io/soundHalloween/ponpon.mp3";
 const SOUND_GIFT_12 = "https://quentinziofix.github.io/soundHalloween/raptor_bark.mp3";
-
+const SOUND_GIFT_8 = "https://quentinziofix.github.io/soundHalloween/bababidouwah.mp3";
+const SOUND_GIFT_19 = "https://quentinziofix.github.io/soundHalloween/alloson.mp3"
 function pickGiftSound(giftCount) {
   if (giftCount === 3) {
     return SOUND_GIFT_3;
@@ -202,8 +231,20 @@ function pickGiftSound(giftCount) {
   if (giftCount === 12) {
     return SOUND_GIFT_12;
   }
+  if (giftCount === 8) {
+    return SOUND_GIFT_8;
+  }
+  if (giftCount === 19) {
+    return SOUND_GIFT_19;
+  }
+  if (giftCount >= 61) {
+    return pickRandom(SOUNDS.gift61);
+  }
+  if (giftCount >= 41) {
+    return pickRandom(SOUNDS.gift41_60);
+  }
   if (giftCount >= 21) {
-    return pickRandom(SOUNDS.gift21);
+    return pickRandom(SOUNDS.gift21_40);
   }
 
   if (giftCount >= 11) {
@@ -372,6 +413,10 @@ window.addEventListener('onEventReceived', (obj) => {
     }
 
     if (giftCount >= 21) {
+      minimumVolume = 0.60;
+    }
+
+    if (giftCount >= 41) {
       minimumVolume = 0.80;
     }
   }
@@ -428,7 +473,9 @@ const ALL_SOUNDS = [
   ...SOUNDS.gift1_4,
   ...SOUNDS.gift5_10,
   ...SOUNDS.gift11_20,
-  ...SOUNDS.gift21,
+  ...SOUNDS.gift21_40,
+  ...SOUNDS.gift41_60,
+  ...SOUNDS.gift61,
   ...SOUNDS.other
 ];
 
@@ -447,8 +494,8 @@ if (unlockButton) {
 // AMBIANCE ALÉATOIRE (10–25 min)
 // ==============================
 
-const AMBIENT_MIN_MS = 10 * 60 * 1000;
-const AMBIENT_MAX_MS = 25 * 60 * 1000;
+const AMBIENT_MIN_MS = 30 * 60 * 1000;
+const AMBIENT_MAX_MS = 60 * 60 * 1000;
 
 function playAmbient() {
   const sound = pickRandom(ALL_SOUNDS);
